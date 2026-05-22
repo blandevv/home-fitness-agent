@@ -90,8 +90,8 @@ function renderText(text) {
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
     .replace(/^[-•] (.+)$/gm, '<li>$1</li>')
     .replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>')
-    .replace(/\n\n/g, '</p><p>')
-    .replace(/\n/g, '<br>')
+    .replaceAll('\n\n', '</p><p>')
+    .replaceAll('\n', '<br>')
     .replace(/^(.+)$/, '<p>$1</p>');
 }
 
@@ -141,4 +141,4 @@ form.addEventListener('submit', (e) => {
   sendMessage(input.value.trim());
 });
 
-window.sendSuggestion = sendSuggestion;
+globalThis.sendSuggestion = sendSuggestion;
