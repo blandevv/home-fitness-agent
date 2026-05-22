@@ -1,11 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" class="h-full">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home Fitness Agent</title>
+  <title>Fitness Coach</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="output.css">
 </head>
-<body>
-  <h1 class="text-3xl font-bold underline">Welcome to the Home Fitness Agent</h1>
+
+<body class="h-full bg-zinc-950 text-white flex flex-col antialiased font-sans">
+
+  <!-- Header -->
+  <header class="flex items-center gap-3 px-6 py-4 border-b border-zinc-800 bg-zinc-900 flex-shrink-0">
+    <div class="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center flex-shrink-0">
+      <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+      </svg>
+    </div>
+    <div class="flex items-baseline gap-2">
+      <span class="font-semibold text-sm text-white">Fitness Coach</span>
+      <span class="text-xs font-medium text-zinc-500 tracking-widest uppercase">AI</span>
+    </div>
+    <div class="ml-auto flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+      <span class="text-xs text-zinc-500">En línea</span>
+    </div>
+  </header>
+
+  <!-- Messages -->
+  <main id="messages" class="flex-1 overflow-y-auto px-6 py-6 space-y-5">
+
+    <!-- Welcome -->
+    <div class="flex items-start gap-3">
+      <div
+        class="w-8 h-8 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center flex-shrink-0 mt-0.5">
+        <svg class="w-4 h-4 text-orange-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+        </svg>
+      </div>
+      <div class="bg-zinc-800 border border-zinc-700 rounded-2xl rounded-tl-md px-4 py-3 max-w-lg">
+        <p class="text-sm text-zinc-200 leading-relaxed">
+          Hola, soy tu <strong class="text-orange-400 font-semibold">Fitness Coach</strong>.<br>
+          Puedo ayudarte con rutinas de entrenamiento, planes semanales, nutrición, calentamiento y más.
+          ¿Cómo puedo ayudarte hoy?
+        </p>
+      </div>
+    </div>
+
+    <!-- Suggestion chips -->
+    <div id="suggestions" class="flex flex-wrap gap-2 pl-11">
+      <button onclick="sendSuggestion('Dame una rutina para hoy')"
+        class="text-xs px-3 py-1.5 rounded-full bg-zinc-800 border border-zinc-700 text-zinc-300 hover:border-orange-500 hover:text-orange-400 transition-colors cursor-pointer">
+        Rutina de hoy
+      </button>
+      <button onclick="sendSuggestion('Quiero un plan de entrenamiento para esta semana')"
+        class="text-xs px-3 py-1.5 rounded-full bg-zinc-800 border border-zinc-700 text-zinc-300 hover:border-orange-500 hover:text-orange-400 transition-colors cursor-pointer">
+        Plan semanal
+      </button>
+      <button onclick="sendSuggestion('Dame consejos de nutrición para tonificar')"
+        class="text-xs px-3 py-1.5 rounded-full bg-zinc-800 border border-zinc-700 text-zinc-300 hover:border-orange-500 hover:text-orange-400 transition-colors cursor-pointer">
+        Nutrición
+      </button>
+      <button onclick="sendSuggestion('Necesito una frase motivacional')"
+        class="text-xs px-3 py-1.5 rounded-full bg-zinc-800 border border-zinc-700 text-zinc-300 hover:border-orange-500 hover:text-orange-400 transition-colors cursor-pointer">
+        Motivación
+      </button>
+      <button onclick="sendSuggestion('Dame una rutina de calentamiento de 10 minutos')"
+        class="text-xs px-3 py-1.5 rounded-full bg-zinc-800 border border-zinc-700 text-zinc-300 hover:border-orange-500 hover:text-orange-400 transition-colors cursor-pointer">
+        Calentamiento
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Input -->
+  <footer class="px-6 pb-6 pt-4 border-t border-zinc-800 bg-zinc-900 flex-shrink-0">
+    <form id="chat-form"
+      class="flex items-end gap-3 bg-zinc-800 border border-zinc-700 rounded-2xl px-4 py-3 focus-within:border-zinc-600 transition-colors">
+      <textarea id="message-input" placeholder="Escribe un mensaje..." rows="1"
+        class="flex-1 bg-transparent text-sm text-white placeholder:text-zinc-500 outline-none resize-none leading-relaxed max-h-32 overflow-y-auto"
+        autocomplete="off"></textarea>
+      <button type="submit" id="send-btn"
+        class="w-8 h-8 rounded-xl bg-orange-500 hover:bg-orange-400 active:scale-95 flex items-center justify-center transition-all flex-shrink-0 disabled:opacity-25 disabled:cursor-not-allowed">
+        <svg class="w-3.5 h-3.5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
+        </svg>
+      </button>
+    </form>
+  </footer>
+
+  <script src="chat.js"></script>
 </body>
+
 </html>
