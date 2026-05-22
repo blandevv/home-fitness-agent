@@ -114,4 +114,4 @@ PORT=                   # default: 3000
 
 ---
 
-<p align="center">MIT</p>
+<p align="center"><a href="./LICENSE">MIT</a></p>
